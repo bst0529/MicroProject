@@ -1,14 +1,15 @@
 const Symbos = ['spades.png','hearts.png','diamonds.png','clubs.png']
 const view = {
     getCardElement (index){
+        return `<div data-index=${index} class="card back"></div>`
+    },
+    getCardContent (index){
         const number = this.transforNumber(index % 13 + 1)
         const symbo = Symbos[Math.floor(index / 13)]
         return `
-        <div class="card">
-            <p>${number}</p>
-            <img src="./img/${symbo}">
-            <p>${number}</p>
-        </div>       
+        <p>${number}</p>
+        <img src="./img/${symbo}">
+        <p>${number}</p>
         `
     },
     transforNumber (number){
@@ -25,6 +26,16 @@ const view = {
         rootElement.innerHTML = utility.getRandomNumberArray(52)
             .map(value => this.getCardElement(value))
             .join('')
+    },
+    flipCard (card) {
+        if (card.classList.contains('back')) {
+            //回傳正面
+            card.classList.remove('back')
+            card.innerHTML = this.getCardContent(Number(card.dataset.index))
+            return
+        }
+        card.classList.add('back')
+        card.innerHTML = ''
     }
 }
 const utility = {
@@ -39,3 +50,8 @@ const utility = {
     }
 }
 view.displayCards(0)
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', event => {
+        view.flipCard(card)
+    })
+})

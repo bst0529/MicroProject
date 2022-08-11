@@ -26,3 +26,7 @@
 .card p:last-child {
     transform: rotate(180deg);
 }
+.back {
+    background-image: url('./img/ExportedContentImage.png');
+    background-size: cover;
+}
