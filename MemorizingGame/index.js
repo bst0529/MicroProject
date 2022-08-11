@@ -22,7 +22,20 @@ const view = {
     },
     displayCards (index){
         const rootElement = document.querySelector('#cards')
-        rootElement.innerHTML = Array.from(Array(52).keys()).map(value => this.getCardElement(value)).join('')
+        rootElement.innerHTML = utility.getRandomNumberArray(52)
+            .map(value => this.getCardElement(value))
+            .join('')
+    }
+}
+const utility = {
+    getRandomNumberArray (count) {
+        const numberArray = Array.from(Array(count).keys())
+        for (let index = numberArray.length - 1; index >= 0; index--) {
+            let randomIndex = Math.floor(Math.random() * (index + 1))
+            //解構賦值
+            ;[numberArray[index],numberArray[randomIndex]] = [numberArray[randomIndex], numberArray[index]]
+        }
+        return numberArray
     }
 }
 view.displayCards(0)
