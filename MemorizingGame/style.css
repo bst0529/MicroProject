@@ -1,11 +1,14 @@
 #cards {
     display: flex;
+    flex-wrap: wrap;
 }
 .card {
-    /* 卡片在容器裡的排版     */
+    /* 卡片在容器裡的排版 */
     flex: 7% 0 1;
     height: 8vw;
     border: 2px solid #e0e0e0;
+    margin: 2px;
+    box-sizing: border-box;
     /* 卡片內部元素排版 */
     display: flex;
     /* main axis */

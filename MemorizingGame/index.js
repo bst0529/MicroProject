@@ -22,7 +22,7 @@ const view = {
     },
     displayCards (index){
         const rootElement = document.querySelector('#cards')
-        rootElement.innerHTML = this.getCardElement(index)
+        rootElement.innerHTML = Array.from(Array(52).keys()).map(value => this.getCardElement(value)).join('')
     }
 }
 view.displayCards(0)
