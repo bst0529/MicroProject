@@ -30,3 +30,6 @@
     background-image: url('./img/ExportedContentImage.png');
     background-size: cover;
 }
+.paired {
+    background: #dae0e3;
+}

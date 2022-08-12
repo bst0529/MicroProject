@@ -43,6 +43,9 @@ const view = {
         }
         card.classList.add('back')
         card.innerHTML = ''
+    },
+    paired (card) {
+        card.classList.add('paired')
     }
 }
 const utility = {
@@ -57,7 +60,10 @@ const utility = {
     }
 }
 const model = {
-    revealedCards: []
+    revealedCards: [],
+    isRevealedCardsMatched (){
+        return this.revealedCards[0].dataset.index % 13 === this.revealedCards[1].dataset.index % 13
+    }
   }
 const controller = {
     currentState: GAME_STATE.FirstCardAwaits,
@@ -75,6 +81,23 @@ const controller = {
             case GAME_STATE.SecondCardAwaits:
                 view.flipCard(card)
                 model.revealedCards.push(card)
+                if (model.isRevealedCardsMatched()) {
+                    //配對成功
+                    this.currentState = GAME_STATE.CardsMatched
+                    view.paired(model.revealedCards[0])
+                    view.paired(model.revealedCards[1])
+                    model.revealedCards = []
+                    this.currentState = GAME_STATE.FirstCardAwaits
+                } else {
+                    //配對失敗
+                    this.currentState = GAME_STATE.CardsMatchFailed
+                    setTimeout(() => {
+                        view.flipCard(model.revealedCards[0])
+                        view.flipCard(model.revealedCards[1])
+                        model.revealedCards = []
+                        this.currentState = GAME_STATE.FirstCardAwaits
+                    }, 1000);
+                }
                 break
         }
         
