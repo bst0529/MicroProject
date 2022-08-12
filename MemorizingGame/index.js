@@ -1,3 +1,10 @@
+const GAME_STATE = {
+    FirstCardAwaits: "FirstCardAwaits",
+    SecondCardAwaits: "SecondCardAwaits",
+    CardsMatchFailed: "CardsMatchFailed",
+    CardsMatched: "CardsMatched",
+    GameFinished: "GameFinished",
+}
 const Symbos = ['spades.png','hearts.png','diamonds.png','clubs.png']
 const view = {
     getCardElement (index){
@@ -21,9 +28,9 @@ const view = {
             default: return number
         }
     },
-    displayCards (index){
+    displayCards (numberArray){
         const rootElement = document.querySelector('#cards')
-        rootElement.innerHTML = utility.getRandomNumberArray(52)
+        rootElement.innerHTML = numberArray
             .map(value => this.getCardElement(value))
             .join('')
     },
@@ -49,7 +56,16 @@ const utility = {
         return numberArray
     }
 }
-view.displayCards(0)
+
+const controller = {
+    currentState: GAME_STATE.FirstCardAwaits,
+    revealedCards: [],
+    generateCards (){
+        view.displayCards(utility.getRandomNumberArray(52))
+    }
+}
+
+controller.generateCards()
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', event => {
         view.flipCard(card)
