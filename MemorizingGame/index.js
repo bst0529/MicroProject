@@ -34,18 +34,22 @@ const view = {
             .map(value => this.getCardElement(value))
             .join('')
     },
-    flipCard (card) {
-        if (card.classList.contains('back')) {
-            //回傳正面
-            card.classList.remove('back')
-            card.innerHTML = this.getCardContent(Number(card.dataset.index))
-            return
-        }
-        card.classList.add('back')
-        card.innerHTML = ''
+    flipCards (...cards) {
+        cards.map(card => {
+            if (card.classList.contains('back')) {
+                //翻回正面
+                card.classList.remove('back')
+                card.innerHTML = this.getCardContent(Number(card.dataset.index))
+                return
+            }
+            card.classList.add('back')
+            card.innerHTML = ''
+        })
     },
-    paired (card) {
-        card.classList.add('paired')
+    pairCards (...cards) {
+        cards.map(card => {
+            card.classList.add('paired')
+        })
     }
 }
 const utility = {
@@ -75,32 +79,30 @@ const controller = {
         switch (this.currentState) {
             case GAME_STATE.FirstCardAwaits:
                 this.currentState = GAME_STATE.SecondCardAwaits
-                view.flipCard(card)
+                view.flipCards(card)
                 model.revealedCards.push(card)
                 break
             case GAME_STATE.SecondCardAwaits:
-                view.flipCard(card)
+                view.flipCards(card)
                 model.revealedCards.push(card)
                 if (model.isRevealedCardsMatched()) {
                     //配對成功
                     this.currentState = GAME_STATE.CardsMatched
-                    view.paired(model.revealedCards[0])
-                    view.paired(model.revealedCards[1])
+                    view.pairCards(...model.revealedCards)
                     model.revealedCards = []
                     this.currentState = GAME_STATE.FirstCardAwaits
                 } else {
                     //配對失敗
                     this.currentState = GAME_STATE.CardsMatchFailed
-                    setTimeout(() => {
-                        view.flipCard(model.revealedCards[0])
-                        view.flipCard(model.revealedCards[1])
-                        model.revealedCards = []
-                        this.currentState = GAME_STATE.FirstCardAwaits
-                    }, 1000);
+                    setTimeout(this.resetCards, 1000);
                 }
                 break
         }
-        
+    },
+    resetCards (){
+        view.flipCards(...model.revealedCards)
+        model.revealedCards = []
+        controller.currentState = GAME_STATE.FirstCardAwaits
     }
 }
 
