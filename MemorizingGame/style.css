@@ -74,3 +74,35 @@
         border: 2px solid #ffd54f;
     };
 }
+.completed {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+.completed-box {
+    position: absolute;
+    background: rgba(100, 198, 237, 0.8);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 11;
+    width: 100%;
+    text-align: center;
+}
+.completed-box p {
+    margin: 10px;
+}
+.completed-box p:nth-of-type(1) {
+    font-size: 30px;
+    color: #fafafa;
+    font-weight: 700;
+}
+.completed-box p:nth-of-type(2),
+.completed-box p:nth-of-type(3) {
+    font-size: 18px;
+    color: #333;
+}

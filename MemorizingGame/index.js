@@ -58,13 +58,25 @@ const view = {
         document.querySelector('.tried').textContent = `You've tried: ${times} times`
     },
     appendWrongAnimation (...cards) {
-        console.log(111)        
         cards.map(card => {
             card.classList.add('wrong')
             card.addEventListener('animationend', event => {
                 event.target.classList.remove('wrong')
             },{ once: true })
         })
+    },
+    showGameFinished (){
+        const div = document.createElement('div')
+        div.classList.add('completed')
+        div.innerHTML = `
+        <div class="completed-box">
+            <p>Completed!</p>
+            <p>Score: ${model.score}</p>
+            <p>You've tried: ${model.triedTimes} times</p>
+        </div>        
+        `
+        const body = document.querySelector('body')
+        body.before(div)
     }
 }
 const utility = {
@@ -108,6 +120,9 @@ const controller = {
                     view.renderScore(model.score += 10)
                     this.currentState = GAME_STATE.CardsMatched
                     view.pairCards(...model.revealedCards)
+                    if (model.score === 260) {
+                        view.showGameFinished()
+                    }
                     model.revealedCards = []
                     this.currentState = GAME_STATE.FirstCardAwaits
                 } else {
