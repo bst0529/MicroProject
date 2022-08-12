@@ -56,18 +56,34 @@ const utility = {
         return numberArray
     }
 }
-
+const model = {
+    revealedCards: []
+  }
 const controller = {
     currentState: GAME_STATE.FirstCardAwaits,
-    revealedCards: [],
     generateCards (){
         view.displayCards(utility.getRandomNumberArray(52))
+    },
+    dispatchCardAction (card) {
+        if (!card.classList.contains('back')) return
+        switch (this.currentState) {
+            case GAME_STATE.FirstCardAwaits:
+                this.currentState = GAME_STATE.SecondCardAwaits
+                view.flipCard(card)
+                model.revealedCards.push(card)
+                break
+            case GAME_STATE.SecondCardAwaits:
+                view.flipCard(card)
+                model.revealedCards.push(card)
+                break
+        }
+        
     }
 }
 
 controller.generateCards()
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', event => {
-        view.flipCard(card)
+        controller.dispatchCardAction(card)
     })
 })
