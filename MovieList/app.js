@@ -15,7 +15,13 @@ app.use(express.static('public'))
 
 // routes setting
 app.get('/',(req,res) => {
-    res.render('index')
+    // create a variable to store movieOne
+    const movieOne = {
+        id: 1,
+        title: 'Jurassic World: Fallen Kingdom',
+        image: 'https://movie-list.alphacamp.io/posters/c9XxwwhPHdaImA2f1WEfEsbhaFB.jpg',
+    }
+    res.render('index',{movie: movieOne})
 })
 
 // start and listen on the Express server
