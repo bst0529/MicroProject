@@ -18,6 +18,13 @@ app.use(express.static('public'))
 app.get('/',(req,res) => {
     res.render('index',{movies: movieList.results})
 })
+app.get('/Search',(req,res) => {
+    const keyword = req.query.keyword
+    const movies = movieList.results.filter(m => {
+        return m.title.toLowerCase().includes(keyword.toLowerCase())
+    })
+    res.render('index',{movies: movies,keyword: keyword})
+})
 app.get('/movies/:movie_id',(req,res) => {
     const movie = movieList.results.find(
         m => m.id.toString() === req.params.movie_id
