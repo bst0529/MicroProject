@@ -1,5 +1,4 @@
 const express = require('express')
-
 const {engine} = require('express-handlebars')
 const port = 3000
 
@@ -8,7 +7,7 @@ app.engine('handlebars', engine({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.set('views', './views')
 
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'))
 
 const restaurantList = require('./restaurant.json')
 
